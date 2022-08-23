@@ -25,7 +25,7 @@ const LoginButton = styled(Button)`
   border-radius: 3px;
   box-shadow: none;
   font-weight: bold;
-  height: 30px;
+  height: 32Spx;
 `;
 
 const CustomButtons = () => {
