@@ -2,6 +2,9 @@ import React from "react";
 import { Box, Button, Typography, styled } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
+//component
+import LoginDialog from "../Login/LoginDialog";
+
 const Wrapper = styled(Box)`
   display: flex;
   margin: 0 3% 0 auto;
@@ -40,6 +43,7 @@ const CustomButtons = () => {
         <ShoppingCartIcon />
         <Typography>Cart</Typography>
       </Container>
+      <LoginDialog/>
     </Wrapper>
   );
 };
