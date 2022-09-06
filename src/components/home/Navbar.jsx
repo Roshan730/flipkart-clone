@@ -1,12 +1,15 @@
-import React from "react";
 import { Box, styled, Typography } from "@mui/material";
 import { navData } from "../../constants/data";
 
-const Component = styled(Box)`
-  display: flex;
-  margin: 50px 130px 0 130px;
-  justify-content: space-between;
-`;
+const Component = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  margin: "55px 130px 0 130px !important",
+  overflowX: "hidden",
+  [theme.breakpoints.down("lg")]: {
+    margin: "0px !important",
+  },
+}));
 
 const Container = styled(Box)`
   padding: 12px 8px;
@@ -15,21 +18,21 @@ const Container = styled(Box)`
 
 const Text = styled(Typography)`
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   font-family: inherit;
 `;
 
-const Navbar = () => {
+const NavBar = () => {
   return (
     <Component>
-      {navData.map((data) => (
+      {navData.map((temp) => (
         <Container>
-          <img src={data.url} alt="nav" style={{ width: 64 }} />
-          <Text>{data.text}</Text>
+          <img src={temp.url} style={{ width: 64 }} alt="url" />
+          <Text>{temp.text}</Text>
         </Container>
       ))}
     </Component>
   );
 };
 
-export default Navbar;
+export default NavBar;

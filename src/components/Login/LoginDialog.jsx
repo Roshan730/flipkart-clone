@@ -9,7 +9,7 @@ import {
   styled,
 } from "@mui/material";
 
-import { authenticationSignup } from "../../service/api";
+import { authenticateSignup, authenticateLogin } from "../../service/api";
 
 const Component = styled(Box)`
   height: 75vh;
@@ -71,6 +71,13 @@ const CreateAccount = styled(Typography)`
   font-weight: bold;
   cursor: pointer;
 `;
+const Error = styled(Typography)`
+  font-size: 10px;
+  color: #ff6161
+  line-height: 0;
+  margin-top: 10px;
+  font-weight: 600;
+`;
 
 const accountInitialValues = {
   login: {
@@ -93,13 +100,21 @@ const signupInitialValues = {
   password: "",
 };
 
+const loginInitialValues = {
+  username: "",
+  password: "",
+};
+
 const LoginDialog = ({ open, setOpen, setAccount }) => {
+  const [login, setLogin] = useState(loginInitialValues);
   const [account, toggleAccount] = useState(accountInitialValues.login);
   const [signup, setSignUp] = useState(signupInitialValues);
+  const [error, setError] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
     toggleAccount(accountInitialValues.login);
+    setError(false);
   };
 
   const toggleSignup = () => {
@@ -111,7 +126,25 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
   };
 
   const signupUser = async () => {
-    let response = await authenticationSignup(signup);
+    let response = await authenticateSignup(signup);
+    if (!response) return;
+    handleClose();
+    setAccount(signup.firstname);
+  };
+
+  const onValueChange = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  };
+
+  const loginUser = async () => {
+    let response = await authenticateLogin(login);
+    console.log(response);
+    if (response.status === 200) {
+      handleClose();
+      setAccount(response.data.data.firstname);
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -132,15 +165,25 @@ const LoginDialog = ({ open, setOpen, setAccount }) => {
             <Wrapper>
               <TextField
                 variant="standard"
-                label="Enter Email / Phone Number"
+                onChange={(e) => onValueChange(e)}
+                name="username"
+                label="Enter UserName"
               />
-              <TextField variant="standard" label="Password" />
+
+              {error && <Error>Please enter valid email & password</Error>}
+
+              <TextField
+                variant="standard"
+                onChange={(e) => onValueChange(e)}
+                name="password"
+                label="Enter Password"
+              />
               <Text>
                 By continuing, you agree to Flipkart's Terms of Use and Privacy
                 Policy.
               </Text>
-              <LoginButton>Login</LoginButton>
-              <Typography style={{ textAlign: "center" }}>Or</Typography>
+              <LoginButton onClick={() => loginUser()}>Login</LoginButton>
+              <Text style={{ textAlign: "center" }}>OR</Text>
               <RequestOTP>Request OTP</RequestOTP>
               <CreateAccount onClick={() => toggleSignup()}>
                 New to Flipkart? Create an account
