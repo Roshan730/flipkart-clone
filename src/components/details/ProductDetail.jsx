@@ -1,7 +1,45 @@
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Typography,
+  styled,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import { LocalOffer as Badge } from "@mui/icons-material";
 
+const SmallText = styled(Box)`
+  font-size: 14px;
+  vertical-align: baseline;
+  & > p {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+`;
+
+const StyledBadge = styled(Badge)`
+  margin-right: 10px;
+  color: #00cc00;
+  font-size: 15px;
+`;
+
+const ColumnText = styled(TableRow)`
+  font-size: 14px;
+  vertical-align: baseline;
+
+  & > td {
+    font-size: 14px;
+    margin-top: 10px;
+    border: none;
+  }
+`;
+
 const ProductDetail = ({ product }) => {
+  const date = new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000);
+
+  const adURL =
+    "https://rukminim1.flixcart.com/lockin/774/185/images/CCO__PP_2019-07-14.png?q=50";
   const fassured =
     "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png";
   return (
@@ -31,29 +69,60 @@ const ProductDetail = ({ product }) => {
         </Box>
       </Typography>
       <Typography>Available Offers</Typography>
-      <Box>
+      <SmallText>
         <Typography>
-          <Badge />
+          <StyledBadge />
           Get extra 20% off upto ₹50 on 1 item(s) T&C
         </Typography>
         <Typography>
-          <Badge />
+          <StyledBadge />
           Get extra 13% off (price inclusive of discount) T&C
         </Typography>
         <Typography>
-          <Badge />
+          <StyledBadge />
           Sign up for flipkart Pay Later and get flipkart Gift card worth ₹100.
           Know More
         </Typography>
         <Typography>
-          <Badge />
+          <StyledBadge />
           Buy 2 items save 5% Buy 3 or more save 10% T&C
         </Typography>
         <Typography>
-          <Badge />
+          <StyledBadge />
           Bank Offer5% Cashback on Flipkart Axis Bank CardT&C
         </Typography>
-      </Box>
+      </SmallText>
+      <Table>
+        <TableBody>
+          <ColumnText>
+            <TableCell style={{ color: "#878787" }}>Delivery</TableCell>
+            <TableCell style={{ fontWeight: 600 }}>
+              Delivery by {date.toDateString()} | ₹50
+            </TableCell>
+          </ColumnText>
+          <ColumnText>
+            <TableCell style={{ color: "#878787" }}>Warranty</TableCell>
+            <TableCell>No Warranty</TableCell>
+          </ColumnText>
+          <TableRow>
+            <TableCell style={{ color: "#878787" }}>Seller</TableCell>
+            <TableCell>
+              <Box component="span" style={{ color: "#2874f0" }}>
+                SuperComNet
+              </Box>
+            </TableCell>
+          </TableRow>
+          <ColumnText>
+            <TableCell colSpan={2}>
+              <img src={adURL} alt="flipkartCoin" style={{ width: 390 }} />
+            </TableCell>
+          </ColumnText>
+          <ColumnText>
+            <TableCell style={{ color: "#878787" }}>Description</TableCell>
+            <TableCell>{product.description}</TableCell>
+          </ColumnText>
+        </TableBody>
+      </Table>
     </>
   );
 };

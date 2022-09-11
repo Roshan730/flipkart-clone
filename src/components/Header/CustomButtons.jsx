@@ -6,20 +6,25 @@ import { DataContext } from "../../context/DataProvider";
 import LoginDialog from "../Login/LoginDialog";
 import Profile from "./Profile";
 
-const Wrapper = styled(Box)`
-  display: flex;
-  margin: 0 3% 0 auto;
-  & > button,
-  & > p,
-  & > div {
-    margin-right: 40px;
-    font-size: 14px;
-  }
-`;
+const Wrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  margin: "0 3% 0 auto",
+  "&>*": {
+    marginRight: "40px !important",
+    fontSize: "16",
+    alignItems: "center",
+  },
+  [theme.breakpoints.down("md")]: {
+    display: "block",
+  },
+}));
 
-const Container = styled(Box)`
-  display: flex;
-`;
+const Container = styled(Box)(({ theme }) => ({
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    display: "block",
+  },
+}));
 
 const LoginButton = styled(Button)`
   color: #2874f0;
@@ -49,13 +54,13 @@ const CustomButtons = () => {
           Login
         </LoginButton>
       )}
-      <Typography style={{ marginTop: 3, width: 135 }}>
+      <Typography style={{ marginTop: 5, width: 135 }}>
         Become a Seller
       </Typography>
-      <Typography style={{ marginTop: 3 }}>More</Typography>
+      <Typography style={{ marginTop: 5 }}>More</Typography>
       <Container>
         <ShoppingCartIcon />
-        <Typography>Cart</Typography>
+        <Typography style={{ marginLeft: 5 }}>Cart</Typography>
       </Container>
       <LoginDialog open={open} setOpen={setOpen} />
     </Wrapper>

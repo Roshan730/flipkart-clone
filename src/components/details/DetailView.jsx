@@ -1,47 +1,56 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { Box, Typography, Grid, styled } from "@mui/material";
-import { getProductDetails } from "../../redux/actions/productActions";
-import ActionItem from "./ActionItem";
+
+import { styled, Box, Grid } from "@mui/material";
+
 import ProductDetail from "./ProductDetail";
+import ActionItem from "./ActionItem";
+import { useParams } from "react-router-dom";
+// import { getProductById } from "../../service/api";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getProductDetails } from "../../redux/actions/productActions";
 
 const Component = styled(Box)`
-  background: #f2f2f2;
   margin-top: 55px;
+  background: #f2f2f2;
 `;
 
-const Container = styled(Grid)`
-  background: #ffffff;
-  display: flex;
-`;
+const Container = styled(Grid)(({ theme }) => ({
+  background: "#FFFFFF",
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    margin: 0,
+  },
+}));
 
 const RightContainer = styled(Grid)`
   margin-top: 50px;
+  & > p {
+    margin-top: 10px;
+  }
 `;
 
 const DetailView = () => {
   const { id } = useParams();
 
-  const dispatch = useDispatch();
-
   const { loading, product } = useSelector((state) => state.getProductDetails);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (product && id !== product.id) dispatch(getProductDetails(id));
-  }, [dispatch, id, product, loading]);
-
-  console.log(product);
+  }, [dispatch, product, id, loading]);
 
   return (
     <Component>
       {product && Object.keys(product).length && (
         <Container container>
-          <Grid item lg={4} md={4} sm={12}>
+          <Grid item lg={4} md={4} sm={8} xs={12}>
             <ActionItem product={product} />
           </Grid>
-          <RightContainer item lg={8} md={8} sm={8} xs={12}></RightContainer>
-          <ProductDetail product={product} />
+          <RightContainer item lg={8} md={8} sm={8} xs={12}>
+            <ProductDetail product={product} />
+          </RightContainer>
         </Container>
       )}
     </Component>
